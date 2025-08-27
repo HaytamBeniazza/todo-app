@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Plus, Edit2, Trash2, Check, X } from 'lucide-react'
+import { Plus, Edit2, Trash2, Check, X, Sparkles } from 'lucide-react'
 import { supabase, Todo, UpdateTodoData } from '@/lib/supabase'
 
 export default function TodoApp() {
@@ -142,11 +142,14 @@ export default function TodoApp() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-red-50 to-red-100 flex items-center justify-center">
-        <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full text-center">
-          <h1 className="text-2xl font-bold text-red-600 mb-4">Configuration Error</h1>
-          <p className="text-gray-700 mb-4">{error}</p>
-          <p className="text-sm text-gray-500">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
+        <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl shadow-2xl p-8 max-w-md w-full text-center">
+          <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+            <X className="w-8 h-8 text-red-400" />
+          </div>
+          <h1 className="text-2xl font-bold text-white mb-4">Configuration Error</h1>
+          <p className="text-slate-300 mb-4">{error}</p>
+          <p className="text-sm text-slate-400">
             Please check your environment variables and restart the development server.
           </p>
         </div>
@@ -156,10 +159,13 @@ export default function TodoApp() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading...</p>
+          <div className="relative">
+            <div className="w-16 h-16 border-4 border-slate-700 rounded-full animate-spin"></div>
+            <div className="absolute inset-0 w-16 h-16 border-4 border-transparent border-t-blue-500 rounded-full animate-spin" style={{ animationDirection: 'reverse', animationDuration: '1.5s' }}></div>
+          </div>
+          <p className="mt-6 text-slate-400 text-lg">Loading your workspace...</p>
         </div>
       </div>
     )
@@ -167,14 +173,19 @@ export default function TodoApp() {
 
   if (!userEmail) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-        <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-          <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
-            Welcome to Todo App
-          </h1>
-          <form onSubmit={handleUserEmailSubmit} className="space-y-4">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
+        <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl shadow-2xl p-8 max-w-md w-full">
+          <div className="text-center mb-8">
+            <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+              <Sparkles className="w-10 h-10 text-white" />
+            </div>
+            <h1 className="text-3xl font-bold text-white mb-2">Welcome to TaskFlow</h1>
+            <p className="text-slate-400">Your minimalist productivity companion</p>
+          </div>
+          
+          <form onSubmit={handleUserEmailSubmit} className="space-y-6">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-3">
                 Enter your email to get started
               </label>
               <input
@@ -183,13 +194,13 @@ export default function TodoApp() {
                 value={emailInput}
                 onChange={(e) => setEmailInput(e.target.value)}
                 placeholder="your.email@example.com"
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder-gray-500 text-base"
+                className="w-full px-4 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 text-white placeholder-slate-500 text-base backdrop-blur-sm transition-all duration-300"
                 required
               />
             </div>
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 transition-colors duration-200 font-medium text-base"
+              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 px-6 rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-medium text-base shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
             >
               Get Started
             </button>
@@ -200,112 +211,131 @@ export default function TodoApp() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8">
-      <div className="max-w-4xl mx-auto px-4">
-        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-          <h1 className="text-3xl font-bold text-center text-gray-800 mb-2">
-            Todo App
-          </h1>
-          <p className="text-center text-gray-600 mb-6">
-            Welcome, {userEmail}
-          </p>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-8 px-4">
+      <div className="max-w-4xl mx-auto">
+        {/* Header Section */}
+        <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl shadow-2xl p-8 mb-8">
+          <div className="text-center mb-8">
+            <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+              <Sparkles className="w-8 h-8 text-white" />
+            </div>
+            <h1 className="text-4xl font-bold text-white mb-2">TaskFlow</h1>
+            <p className="text-slate-400 text-lg">
+              Welcome back, <span className="text-blue-400 font-medium">{userEmail}</span>
+            </p>
+          </div>
           
-          <form onSubmit={(e) => { e.preventDefault(); addTodo(); }} className="flex gap-2 mb-6">
+          {/* Add Todo Form */}
+          <form onSubmit={(e) => { e.preventDefault(); addTodo(); }} className="flex gap-3">
             <input
               type="text"
               value={newTodo}
               onChange={(e) => setNewTodo(e.target.value)}
-              placeholder="Add a new task..."
-              className="flex-1 px-4 py-3 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder-gray-500 text-base"
+              placeholder="What needs to be done?"
+              className="flex-1 px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 text-white placeholder-slate-500 text-base backdrop-blur-sm transition-all duration-300"
             />
             <button
               type="submit"
-              className="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition-colors duration-200 flex items-center gap-2 font-medium text-base"
+              className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 flex items-center gap-3 font-medium text-base shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
             >
               <Plus size={20} />
-              Add
+              Add Task
             </button>
           </form>
+        </div>
 
-          <div className="space-y-3">
-            {todos.length === 0 ? (
-              <p className="text-center text-gray-500 py-8">
-                No tasks yet. Add your first task above!
-              </p>
-            ) : (
-              todos.map((todo) => (
-                <div
-                  key={todo.id}
-                  className={`flex items-center gap-3 p-4 border rounded-lg transition-all duration-200 ${
-                    todo.completed
-                      ? 'bg-gray-50 border-gray-200'
-                      : 'bg-white border-gray-300 hover:shadow-md'
-                  }`}
-                >
-                  <button
-                    onClick={() => updateTodo(todo.id, { completed: !todo.completed })}
-                    className={`flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors duration-200 ${
-                      todo.completed
-                        ? 'bg-green-500 border-green-500 text-white'
-                        : 'border-gray-300 hover:border-green-500'
-                    }`}
-                  >
-                    {todo.completed && <Check size={16} />}
-                  </button>
+        {/* Todos Section */}
+        <div className="space-y-4">
+          {todos.length === 0 ? (
+            <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-12 text-center">
+              <div className="w-20 h-20 bg-slate-700/50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <Sparkles className="w-10 h-10 text-slate-400" />
+              </div>
+              <p className="text-slate-400 text-lg mb-2">No tasks yet</p>
+              <p className="text-slate-500">Add your first task above to get started</p>
+            </div>
+          ) : (
+            todos.map((todo) => (
+              <div
+                key={todo.id}
+                className={`group backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl transition-all duration-500 transform hover:scale-[1.02] hover:shadow-2xl ${
+                  todo.completed
+                    ? 'bg-white/5 border-slate-600/30'
+                    : 'bg-white/10 border-white/20 hover:border-white/30'
+                }`}
+              >
+                <div className="p-6">
+                  <div className="flex items-center gap-4">
+                    {/* Checkbox */}
+                    <button
+                      onClick={() => updateTodo(todo.id, { completed: !todo.completed })}
+                      className={`flex-shrink-0 w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-all duration-300 transform hover:scale-110 ${
+                        todo.completed
+                          ? 'bg-gradient-to-r from-green-500 to-emerald-500 border-transparent text-white shadow-lg'
+                          : 'border-slate-400 hover:border-blue-400 hover:bg-blue-500/20'
+                      }`}
+                    >
+                      {todo.completed && <Check size={16} />}
+                    </button>
 
-                  <div className="flex-1 min-w-0">
-                    {editingId === todo.id ? (
-                      <div className="flex gap-2">
-                        <input
-                          type="text"
-                          value={editTitle}
-                          onChange={(e) => setEditTitle(e.target.value)}
-                          className="flex-1 px-3 py-2 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 text-base"
-                          autoFocus
-                        />
-                        <button
-                          onClick={saveEdit}
-                          className="text-green-600 hover:text-green-700 p-1"
+                    {/* Todo Content */}
+                    <div className="flex-1 min-w-0">
+                      {editingId === todo.id ? (
+                        <div className="flex gap-3">
+                          <input
+                            type="text"
+                            value={editTitle}
+                            onChange={(e) => setEditTitle(e.target.value)}
+                            className="flex-1 px-4 py-2 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 text-white text-base"
+                            autoFocus
+                          />
+                          <button
+                            onClick={saveEdit}
+                            className="text-green-400 hover:text-green-300 p-2 hover:bg-green-500/20 rounded-lg transition-colors duration-200"
+                          >
+                            <Check size={18} />
+                          </button>
+                          <button
+                            onClick={cancelEdit}
+                            className="text-red-400 hover:text-red-300 p-2 hover:bg-red-500/20 rounded-lg transition-colors duration-200"
+                          >
+                            <X size={18} />
+                          </button>
+                        </div>
+                      ) : (
+                        <span
+                          className={`block text-lg transition-all duration-300 ${
+                            todo.completed 
+                              ? 'line-through text-slate-500' 
+                              : 'text-white'
+                          }`}
                         >
-                          <Check size={18} />
-                        </button>
-                        <button
-                          onClick={cancelEdit}
-                          className="text-red-600 hover:text-red-700 p-1"
-                        >
-                          <X size={18} />
-                        </button>
-                      </div>
-                    ) : (
-                      <span
-                        className={`block truncate ${
-                          todo.completed ? 'line-through text-gray-500' : 'text-gray-800'
-                        }`}
+                          {todo.title}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex gap-2 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <button
+                        onClick={() => startEditing(todo)}
+                        className="text-blue-400 hover:text-blue-300 p-3 hover:bg-blue-500/20 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled={todo.completed}
                       >
-                        {todo.title}
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="flex gap-2 flex-shrink-0">
-                    <button
-                      onClick={() => startEditing(todo)}
-                      className="text-blue-600 hover:text-blue-700 p-2 hover:bg-blue-50 rounded-md transition-colors duration-200"
-                      disabled={todo.completed}
-                    >
-                      <Edit2 size={18} />
-                    </button>
-                    <button
-                      onClick={() => deleteTodo(todo.id)}
-                      className="text-red-600 hover:text-red-700 p-2 hover:bg-red-50 rounded-md transition-colors duration-200"
-                    >
-                      <Trash2 size={18} />
-                    </button>
+                        <Edit2 size={18} />
+                      </button>
+                      <button
+                        onClick={() => deleteTodo(todo.id)}
+                        className="text-red-400 hover:text-red-300 p-3 hover:bg-red-500/20 rounded-xl transition-all duration-200"
+                      >
+                        <Trash2 size={18} />
+                      </button>
+                    </div>
                   </div>
                 </div>
-              ))
-            )}
-          </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>
