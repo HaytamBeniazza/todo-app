@@ -8,22 +8,22 @@
 }
 
 ::-webkit-scrollbar-track {
-  background-color: #EAEAEA;
+  background-color: var(--border);
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #888888;
+  background-color: var(--text-secondary);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #111111;
+  background-color: var(--text-primary);
 }
 
 /* Firefox scrollbar */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #888888 #EAEAEA;
+  scrollbar-color: var(--text-secondary) var(--border);
 }
 
 /* Smooth transitions for all elements */
@@ -34,7 +34,56 @@
 /* Enhanced focus styles */
 *:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px #111111;
+  box-shadow: 0 0 0 2px var(--text-primary);
+}
+
+/* Ensure all text is visible */
+* {
+  color: inherit;
+}
+
+/* Ensure proper contrast for all text elements */
+.text-title,
+.text-body,
+.text-small,
+h1, h2, h3, h4, h5, h6,
+p, span, div, button, input, label {
+  color: var(--text-primary);
+}
+
+/* Ensure proper contrast for secondary text */
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+/* Ensure proper contrast for completed tasks */
+.text-completed {
+  color: var(--text-secondary);
+  text-decoration: line-through;
+}
+
+:root {
+  --background: #FFFFFF;
+  --card-background: #F8F9FA;
+  --text-primary: #111111;
+  --text-secondary: #6B7280;
+  --border: #E5E7EB;
+  --hover: #F3F4F6;
+}
+
+.dark {
+  --background: #111111;
+  --card-background: #1F2937;
+  --text-primary: #F9FAFB;
+  --text-secondary: #9CA3AF;
+  --border: #374151;
+  --hover: #374151;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text-primary);
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
 /* Custom utility classes for the design system */
@@ -42,18 +91,26 @@
   font-size: 28px;
   font-weight: 700;
   line-height: 1.2;
+  color: var(--text-primary);
 }
 
 .text-body {
   font-size: 16px;
   font-weight: 400;
   line-height: 1.5;
+  color: var(--text-primary);
 }
 
 .text-small {
   font-size: 14px;
   font-weight: 400;
   line-height: 1.4;
+  color: var(--text-secondary);
+}
+
+.text-completed {
+  text-decoration: line-through;
+  color: var(--text-secondary);
 }
 
 /* Task card hover effect */
@@ -62,7 +119,11 @@
 }
 
 .task-card:hover {
-  background-color: #F9F9F9;
+  background-color: var(--hover);
+}
+
+.task-card:hover .delete-btn {
+  opacity: 1;
 }
 
 /* Checkbox styles */
@@ -70,23 +131,28 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  border: 1px solid #EAEAEA;
+  border: 1px solid var(--border);
   transition: all 0.2s ease-in-out;
 }
 
 .checkbox:hover {
-  border-color: #111111;
+  border-color: var(--text-primary);
 }
 
 .checkbox.checked {
-  background-color: #111111;
-  border-color: #111111;
-  color: white;
+  background-color: var(--text-primary);
+  border-color: var(--text-primary);
+  color: var(--background);
+}
+
+.delete-btn {
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
 }
 
 /* Input focus states */
 .input-focus {
-  border-color: #111111;
+  border-color: var(--text-primary);
   transition: border-color 0.2s ease-in-out;
 }
 
@@ -96,5 +162,65 @@
 }
 
 .btn-hover:hover {
-  background-color: #F9F9F9;
+  background-color: var(--hover);
+}
+
+/* Ensure proper contrast for all interactive elements */
+button, input, select, textarea {
+  background-color: var(--card-background);
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+button:hover {
+  background-color: var(--hover);
+}
+
+/* Ensure proper contrast for form elements */
+input::placeholder {
+  color: var(--text-secondary);
+}
+
+/* Ensure proper contrast for icons */
+svg {
+  color: currentColor;
+}
+
+/* Ensure proper theme application */
+html.dark {
+  color-scheme: dark;
+}
+
+html:not(.dark) {
+  color-scheme: light;
+}
+
+/* Force proper contrast for all text elements */
+.text-title,
+.text-body,
+.text-small {
+  color: var(--text-primary) !important;
+}
+
+/* Ensure proper contrast for all backgrounds */
+.bg-\[var\(--background\)\] {
+  background-color: var(--background) !important;
+}
+
+.bg-\[var\(--card-background\)\] {
+  background-color: var(--card-background) !important;
+}
+
+/* Ensure proper contrast for all borders */
+.border-\[var\(--border\)\] {
+  border-color: var(--border) !important;
+}
+
+/* Ensure proper contrast for all text colors */
+.text-\[var\(--text-primary\)\] {
+  color: var(--text-primary) !important;
+}
+
+.text-\[var\(--text-secondary\)\] {
+  color: var(--text-secondary) !important;
 }
